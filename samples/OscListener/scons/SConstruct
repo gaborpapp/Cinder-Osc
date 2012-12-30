@@ -1,0 +1,10 @@
+env = Environment()
+
+env['APP_TARGET'] = 'OscListenerApp'
+env['APP_SOURCES'] = ['OscListenerApp.cpp']
+env['DEBUG'] = 0
+
+env = SConscript('../../../scons/SConscript', exports = 'env')
+
+SConscript('../../../../../scons/SConscript', exports = 'env')
+

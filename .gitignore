@@ -1,0 +1,6 @@
+# scons
+scons/*.pyc
+scons/config.log
+.sconsign.dblite
+.sconf_temp
+*.o
