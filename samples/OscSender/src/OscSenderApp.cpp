@@ -8,7 +8,7 @@
 
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  GNU General Public License for more details.
 
  You should have received a copy of the GNU General Public License
@@ -46,11 +46,6 @@ class OscSenderApp : public AppBasic
 void OscSenderApp::setup()
 {
 	mMouseX = 0;
-	/*
-	string host = System::getIpAddress();
-	if ( host.rfind( '.' ) != string::npos )
-		host.replace( host.rfind( '.' ) + 1, 3, "255" );
-	*/
 	mServer = mndl::osc::Client( "127.0.0.1", 7770 );
 }
 
