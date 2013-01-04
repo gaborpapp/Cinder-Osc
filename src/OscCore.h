@@ -26,6 +26,11 @@ namespace mndl { namespace osc {
 
 typedef enum
 {
+	PORT_ANY = 0
+} Port;
+
+typedef enum
+{
 	PROTO_UDP = LO_UDP,
 	PROTO_TCP = LO_TCP,
 	PROTO_UNIX = LO_UNIX
