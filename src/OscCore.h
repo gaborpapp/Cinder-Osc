@@ -94,6 +94,14 @@ class Message
 			return mArguments.size();
 		}
 
+		friend std::ostream& operator<<( std::ostream &lhs, const Message &rhs )
+		{
+			lhs << rhs.mAddressPattern << " " << rhs.mTypeTag;
+			for ( std::vector< Argument >::const_iterator it = rhs.mArguments.begin(); it != rhs.mArguments.end(); ++it )
+				lhs << " " << *it;
+			return lhs;
+		}
+
 	protected:
 		std::string mAddressPattern;
 		std::vector< Argument > mArguments;
