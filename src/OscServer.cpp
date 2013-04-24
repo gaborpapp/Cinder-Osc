@@ -44,7 +44,12 @@ void Server::unregisterOscReceived( uint32_t callbackId )
 Server::Obj::Obj( int port, Proto proto )
 {
 	string portStr = boost::lexical_cast< string >( port );
-	mThread = lo_server_thread_new_with_proto( portStr.c_str(), proto, errorHandler );
+	mThread = lo_server_thread_new_with_proto( ( port == PORT_ANY ) ? NULL : portStr.c_str(), proto, errorHandler );
+	if ( port == PORT_ANY )
+		mPort = lo_server_thread_get_port( mThread );
+	else
+		mPort = port;
+
 	lo_server_thread_start( mThread );
 }
 

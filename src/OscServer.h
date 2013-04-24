@@ -56,11 +56,15 @@ class Server
 
 		void unregisterOscReceived( uint32_t callbackId );
 
+		int getPort() const { return mObj->mPort; }
+
 	protected:
 		struct Obj
 		{
 			Obj() {}
 			Obj( int port, Proto proto );
+
+			int mPort;
 
 			static void errorHandler( int num, const char *m, const char *path );
 
