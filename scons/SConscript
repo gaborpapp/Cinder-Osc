@@ -3,43 +3,21 @@ import os
 Import('env')
 
 _INCLUDES = [Dir('../src').abspath]
+if env['PLATFORM'] == 'darwin':
+	_INCLUDES += [Dir('../include/macosx').abspath]
 
 _SOURCES = ['OscServer.cpp', 'OscClient.cpp']
 _SOURCES = [File('../src/' + s).abspath for s in _SOURCES]
 
-env['ENV']['PATH'] = os.environ['PATH']
-
-def CheckPKGConfig(context, version):
-    context.Message( 'Checking for pkg-config... ' )
-    ret = context.TryAction('pkg-config --atleast-pkgconfig-version=%s' % version)[0]
-    context.Result(ret)
-    return ret
-
-def CheckPKG(context, name):
-    context.Message('Checking for %s... ' % name)
-    ret = context.TryAction("pkg-config --exists '%s'" % name)[0]
-    context.Result(ret)
-    return ret
-
-if (not GetOption('clean')):
-    conf = env.Configure(custom_tests = { 'CheckPKGConfig' : CheckPKGConfig,
-                                            'CheckPKG' : CheckPKG })
-    if not conf.CheckPKGConfig('0.15'):
-        print 'ERROR: pkg-config not found.'
-        Exit(1)
-
-    _LIBS = ['liblo']
-
-    for lib in _LIBS:
-        if not conf.CheckPKG(lib):
-            print "ERROR: '%s' must be installed!" % (lib)
-            Exit(1)
-        else:
-            env.ParseConfig('pkg-config --cflags --static --libs %s' % (lib))
-
-    env = conf.Finish()
+_LIBS = ['liblo.a']
+if env['PLATFORM'] == 'darwin':
+	_LIBS = [Dir('../lib/macosx/').abspath + '/' + s for s in _LIBS]
+else:
+	_LIBS = []
+_LIBS = [File(s) for s in _LIBS]
 
 env.Append(APP_SOURCES = _SOURCES)
 env.Append(CPPPATH = _INCLUDES)
+env.Append(LIBS = _LIBS)
 
 Return('env')
