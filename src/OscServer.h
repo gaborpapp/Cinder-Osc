@@ -42,7 +42,7 @@ class Server
 		uint32_t registerOscReceived( bool( T::*fn )( const osc::Message & ), T *inst, const std::string &addressPattern = "", const std::string &typeTag = "" )
 		{
 			std::shared_ptr< std::function< osc::Callback > > callbackPtr( new std::function< osc::Callback >(
-						std::bind( fn, inst, std::_1 ) ) );
+						std::bind( fn, inst, std::placeholders::_1 ) ) );
 			mObj->mOscCallbacks.push_back( callbackPtr );
 
 			const char *addressPatternPtr = addressPattern.empty() ? NULL : addressPattern.c_str();
