@@ -63,6 +63,7 @@ class Server
 		{
 			Obj() {}
 			Obj( int port, Proto proto );
+			~Obj();
 
 			int mPort;
 

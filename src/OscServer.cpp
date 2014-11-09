@@ -53,6 +53,11 @@ Server::Obj::Obj( int port, Proto proto )
 	lo_server_thread_start( mThread );
 }
 
+Server::Obj::~Obj()
+{
+	lo_server_thread_free( mThread );
+}
+
 void Server::Obj::errorHandler( int num, const char *msg, const char *path )
 {
 	ci::app::console() << "liblo server error " << num << " in path " << path << ": " << msg << endl;
