@@ -16,7 +16,8 @@
 */
 
 #include "cinder/Cinder.h"
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "cinder/System.h"
 
@@ -26,7 +27,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class OscSenderApp : public AppBasic
+class OscSenderApp : public App
 {
 	public:
 		void setup();
@@ -71,5 +72,5 @@ void OscSenderApp::mouseDrag( MouseEvent event )
 	mouseMove( event );
 }
 
-CINDER_APP_BASIC( OscSenderApp, RendererGl )
+CINDER_APP( OscSenderApp, RendererGl )
 

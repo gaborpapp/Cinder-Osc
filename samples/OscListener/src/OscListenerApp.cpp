@@ -16,7 +16,8 @@
 */
 
 #include "cinder/Cinder.h"
-#include "cinder/app/AppBasic.h"
+#include "cinder/app/App.h"
+#include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 
 #include "OscServer.h"
@@ -25,7 +26,7 @@ using namespace ci;
 using namespace ci::app;
 using namespace std;
 
-class OscListenerApp : public AppBasic
+class OscListenerApp : public App
 {
 	public:
 		void setup();
@@ -84,5 +85,5 @@ void OscListenerApp::draw()
 	gl::clear( Color::black() );
 }
 
-CINDER_APP_BASIC( OscListenerApp, RendererGl )
+CINDER_APP( OscListenerApp, RendererGl )
 
