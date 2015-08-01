@@ -15,7 +15,6 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "cinder/Cinder.h"
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
@@ -28,16 +27,16 @@ using namespace std;
 
 class OscListenerApp : public App
 {
-	public:
-		void setup();
+ public:
+	void setup();
 
-		void update();
-		void draw();
+	void update();
+	void draw();
 
-	private:
-		bool oscReceived( const mndl::osc::Message &message );
+ private:
+	bool oscReceived( const mndl::osc::Message &message );
 
-		mndl::osc::Server mListener;
+	mndl::osc::Server mListener;
 };
 
 void OscListenerApp::setup()
@@ -82,8 +81,7 @@ void OscListenerApp::update()
 
 void OscListenerApp::draw()
 {
-	gl::clear( Color::black() );
+	gl::clear();
 }
 
 CINDER_APP( OscListenerApp, RendererGl )
-

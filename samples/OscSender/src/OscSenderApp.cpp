@@ -15,11 +15,9 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "cinder/Cinder.h"
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-#include "cinder/System.h"
 
 #include "OscClient.h"
 
@@ -29,19 +27,19 @@ using namespace std;
 
 class OscSenderApp : public App
 {
-	public:
-		void setup();
+ public:
+	void setup();
 
-		void update();
-		void draw();
+	void update();
+	void draw();
 
-		void mouseMove( MouseEvent event );
-		void mouseDrag( MouseEvent event );
+	void mouseMove( MouseEvent event );
+	void mouseDrag( MouseEvent event );
 
-	private:
-		mndl::osc::Client mSender;
+ private:
+	mndl::osc::Client mSender;
 
-		int mMouseX;
+	int mMouseX;
 };
 
 void OscSenderApp::setup()
@@ -59,7 +57,7 @@ void OscSenderApp::update()
 
 void OscSenderApp::draw()
 {
-	gl::clear( Color::black() );
+	gl::clear();
 }
 
 void OscSenderApp::mouseMove( MouseEvent event )
@@ -73,4 +71,3 @@ void OscSenderApp::mouseDrag( MouseEvent event )
 }
 
 CINDER_APP( OscSenderApp, RendererGl )
-
