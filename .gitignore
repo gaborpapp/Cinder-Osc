@@ -3,4 +3,12 @@ scons/*.pyc
 scons/config.log
 .sconsign.dblite
 .sconf_temp
+
+.DS_Store
 *.o
+*.app
+
+samples/OscSender/scons/OscSenderApp
+samples/OscListener/scons/OscListenerApp
+
+*.sw[a-z]
