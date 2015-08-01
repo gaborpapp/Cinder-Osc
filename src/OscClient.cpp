@@ -64,4 +64,3 @@ Client::Obj::Obj( std::string host, int port, Proto proto )
 }
 
 } } // mndl::osc
-

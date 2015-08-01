@@ -95,4 +95,3 @@ int Server::Obj::implOscCallback( const char *path, const char *types, lo_arg **
 uint32_t Server::Obj::sCallbackId = 0;
 
 } } // mndl::osc
-

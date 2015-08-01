@@ -48,4 +48,3 @@ class Client
 };
 
 } } // namespace mndl::osc
-

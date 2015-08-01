@@ -50,12 +50,12 @@ class Message
  public:
 	Message( const std::string &addressPattern ) : mAddressPattern( addressPattern ), mTypeTag( "" ) {}
 
-	const std::string &getAddressPattern() const
+	const std::string & getAddressPattern() const
 	{
 		return mAddressPattern;
 	}
 
-	const std::string &getTypeTag() const
+	const std::string & getTypeTag() const
 	{
 		return mTypeTag;
 	}
@@ -99,11 +99,13 @@ class Message
 		return mArguments.size();
 	}
 
-	friend std::ostream& operator<<( std::ostream &lhs, const Message &rhs )
+	friend std::ostream & operator<<( std::ostream &lhs, const Message &rhs )
 	{
 		lhs << rhs.mAddressPattern << " " << rhs.mTypeTag;
-		for ( std::vector< Argument >::const_iterator it = rhs.mArguments.begin(); it != rhs.mArguments.end(); ++it )
-			lhs << " " << *it;
+		for ( const auto &arg : rhs.mArguments )
+		{
+			lhs << " " << arg;
+		}
 		return lhs;
 	}
 
@@ -114,4 +116,3 @@ class Message
 };
 
 } } // namespace mndl::osc
-
