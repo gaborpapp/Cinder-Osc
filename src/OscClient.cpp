@@ -19,13 +19,12 @@
 
 #include "OscClient.h"
 
-using namespace std;
-
 namespace mndl { namespace osc {
 
-Client::Client( std::string host, int port, Proto proto /* = PROTO_UDP */ ) :
-	mObj( shared_ptr< Client::Obj >( new Obj( host, port, proto ) ) )
+Client::Client( const std::string &host, int port, Proto proto /* = PROTO_UDP */ )
 {
+	std::string portStr = boost::lexical_cast< std::string >( port );
+	mAddress = lo_address_new_with_proto( proto, host.c_str(), portStr.c_str() );
 }
 
 void Client::send( const osc::Message &message )
@@ -53,14 +52,8 @@ void Client::send( const osc::Message &message )
 		}
 	}
 
-	lo_send_message( mObj->mAddress, message.getAddressPattern().c_str(), msg );
+	lo_send_message( mAddress, message.getAddressPattern().c_str(), msg );
 	lo_message_free( msg );
-}
-
-Client::Obj::Obj( std::string host, int port, Proto proto )
-{
-	string portStr = boost::lexical_cast< string >( port );
-	mAddress = lo_address_new_with_proto( proto, host.c_str(), portStr.c_str() );
 }
 
 } } // mndl::osc

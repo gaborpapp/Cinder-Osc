@@ -37,7 +37,7 @@ class OscSenderApp : public App
 	void mouseDrag( MouseEvent event );
 
  private:
-	mndl::osc::Client mSender;
+	mndl::osc::ClientRef mSender;
 
 	int mMouseX;
 };
@@ -45,14 +45,14 @@ class OscSenderApp : public App
 void OscSenderApp::setup()
 {
 	mMouseX = 0;
-	mSender = mndl::osc::Client( "127.0.0.1", 7770 );
+	mSender = mndl::osc::Client::create( "127.0.0.1", 7770 );
 }
 
 void OscSenderApp::update()
 {
 	mndl::osc::Message msg( "/cinder/osc/1" );
 	msg.addArg( mMouseX );
-	mSender.send( msg );
+	mSender->send( msg );
 }
 
 void OscSenderApp::draw()

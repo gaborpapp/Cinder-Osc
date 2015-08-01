@@ -36,14 +36,14 @@ class OscListenerApp : public App
  private:
 	bool oscReceived( const mndl::osc::Message &message );
 
-	mndl::osc::Server mListener;
+	mndl::osc::ServerRef mListener;
 };
 
 void OscListenerApp::setup()
 {
-	mListener = mndl::osc::Server( 7770 );
+	mListener = mndl::osc::Server::create( 7770 );
 
-	mListener.registerOscReceived< OscListenerApp >( &OscListenerApp::oscReceived, this );
+	mListener->registerOscReceived< OscListenerApp >( &OscListenerApp::oscReceived, this );
 }
 
 bool OscListenerApp::oscReceived( const mndl::osc::Message &message )

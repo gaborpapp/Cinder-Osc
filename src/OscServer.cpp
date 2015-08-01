@@ -25,45 +25,44 @@ using namespace std;
 
 namespace mndl { namespace osc {
 
-Server::Server( int port, Proto proto /* = PROTO_UDP */ ) :
-	mObj( shared_ptr< Server::Obj >( new Obj( port, proto ) ) )
-{
-}
-
-void Server::unregisterOscReceived( uint32_t callbackId )
-{
-	string path = mObj->mCallbackSpecs[ callbackId ].first;
-	string typeSpec = mObj->mCallbackSpecs[ callbackId ].second;
-	const char *pathPtr = path.empty() ? NULL : path.c_str();
-	const char *typeSpecPtr = typeSpec.empty() ? NULL : typeSpec.c_str();
-
-	lo_server_thread_del_method( mObj->mThread, pathPtr, typeSpecPtr );
-	mObj->mCallbackSpecs.erase( callbackId );
-}
-
-Server::Obj::Obj( int port, Proto proto )
+Server::Server( int port, Proto proto /* = PROTO_UDP */ )
 {
 	string portStr = boost::lexical_cast< string >( port );
 	mThread = lo_server_thread_new_with_proto( ( port == PORT_ANY ) ? NULL : portStr.c_str(), proto, errorHandler );
 	if ( port == PORT_ANY )
+	{
 		mPort = lo_server_thread_get_port( mThread );
+	}
 	else
+	{
 		mPort = port;
+	}
 
 	lo_server_thread_start( mThread );
 }
 
-Server::Obj::~Obj()
+Server::~Server()
 {
 	lo_server_thread_free( mThread );
 }
 
-void Server::Obj::errorHandler( int num, const char *msg, const char *path )
+void Server::unregisterOscReceived( uint32_t callbackId )
+{
+	string path = mCallbackSpecs[ callbackId ].first;
+	string typeSpec = mCallbackSpecs[ callbackId ].second;
+	const char *pathPtr = path.empty() ? NULL : path.c_str();
+	const char *typeSpecPtr = typeSpec.empty() ? NULL : typeSpec.c_str();
+
+	lo_server_thread_del_method( mThread, pathPtr, typeSpecPtr );
+	mCallbackSpecs.erase( callbackId );
+}
+
+void Server::errorHandler( int num, const char *msg, const char *path )
 {
 	ci::app::console() << "liblo server error " << num << " in path " << path << ": " << msg << endl;
 }
 
-int Server::Obj::implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData )
+int Server::implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData )
 {
 	std::function< osc::Callback > *fn = reinterpret_cast< std::function< osc::Callback >* >( userData );
 
@@ -92,6 +91,6 @@ int Server::Obj::implOscCallback( const char *path, const char *types, lo_arg **
 	return (*fn)( m ) ? 1 : 0;
 }
 
-uint32_t Server::Obj::sCallbackId = 0;
+uint32_t Server::sCallbackId = 0;
 
 } } // mndl::osc

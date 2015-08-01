@@ -17,6 +17,7 @@
 
 #pragma once
 
+#include <memory>
 #include <string>
 
 #include "cinder/Cinder.h"
@@ -27,24 +28,20 @@
 
 namespace mndl { namespace osc {
 
+typedef std::shared_ptr< class Client > ClientRef;
+
 class Client
 {
  public:
-	Client() {}
-	Client( std::string host, int port, Proto proto = PROTO_UDP );
+	static ClientRef create( const std::string &host, int port, Proto proto = PROTO_UDP )
+	{ return ClientRef( new Client( host, port, proto ) ); }
 
 	void send( const osc::Message &message );
 
  protected:
-	struct Obj
-	{
-		Obj() {}
-		Obj( std::string host, int port, Proto proto );
+	Client( const std::string &host, int port, Proto proto = PROTO_UDP );
 
-		lo_address mAddress;
-	};
-
-	std::shared_ptr< Client::Obj > mObj;
+	lo_address mAddress;
 };
 
 } } // namespace mndl::osc
