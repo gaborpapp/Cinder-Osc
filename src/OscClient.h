@@ -29,22 +29,22 @@ namespace mndl { namespace osc {
 
 class Client
 {
-	public:
-		Client() {}
-		Client( std::string host, int port, Proto proto = PROTO_UDP );
+ public:
+	Client() {}
+	Client( std::string host, int port, Proto proto = PROTO_UDP );
 
-		void send( const osc::Message &message );
+	void send( const osc::Message &message );
 
-	protected:
-		struct Obj
-		{
-			Obj() {}
-			Obj( std::string host, int port, Proto proto );
+ protected:
+	struct Obj
+	{
+		Obj() {}
+		Obj( std::string host, int port, Proto proto );
 
-			lo_address mAddress;
-		};
+		lo_address mAddress;
+	};
 
-		std::shared_ptr< Client::Obj > mObj;
+	std::shared_ptr< Client::Obj > mObj;
 };
 
 } } // namespace mndl::osc

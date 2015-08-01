@@ -34,51 +34,51 @@ typedef bool( Callback )( const osc::Message & );
 
 class Server
 {
-	public:
-		Server() {}
-		Server( int port, Proto proto = PROTO_UDP );
+ public:
+	Server() {}
+	Server( int port, Proto proto = PROTO_UDP );
 
-		template < typename T >
-		uint32_t registerOscReceived( bool( T::*fn )( const osc::Message & ), T *inst, const std::string &addressPattern = "", const std::string &typeTag = "" )
-		{
-			std::shared_ptr< std::function< osc::Callback > > callbackPtr( new std::function< osc::Callback >(
-						std::bind( fn, inst, std::placeholders::_1 ) ) );
-			mObj->mOscCallbacks.push_back( callbackPtr );
+	template < typename T >
+	uint32_t registerOscReceived( bool( T::*fn )( const osc::Message & ), T *inst, const std::string &addressPattern = "", const std::string &typeTag = "" )
+	{
+		std::shared_ptr< std::function< osc::Callback > > callbackPtr( new std::function< osc::Callback >(
+					std::bind( fn, inst, std::placeholders::_1 ) ) );
+		mObj->mOscCallbacks.push_back( callbackPtr );
 
-			const char *addressPatternPtr = addressPattern.empty() ? NULL : addressPattern.c_str();
-			const char *typeTagPtr = typeTag.empty() ? NULL : typeTag.c_str();
-			lo_server_thread_add_method( mObj->mThread, addressPatternPtr, typeTagPtr, mObj->implOscCallback, (void *)callbackPtr.get() );
+		const char *addressPatternPtr = addressPattern.empty() ? NULL : addressPattern.c_str();
+		const char *typeTagPtr = typeTag.empty() ? NULL : typeTag.c_str();
+		lo_server_thread_add_method( mObj->mThread, addressPatternPtr, typeTagPtr, mObj->implOscCallback, (void *)callbackPtr.get() );
 
-			Obj::sCallbackId++;
-			mObj->mCallbackSpecs[ Obj::sCallbackId ] = std::make_pair( addressPattern, typeTag );
-			return Obj::sCallbackId;
-		}
+		Obj::sCallbackId++;
+		mObj->mCallbackSpecs[ Obj::sCallbackId ] = std::make_pair( addressPattern, typeTag );
+		return Obj::sCallbackId;
+	}
 
-		void unregisterOscReceived( uint32_t callbackId );
+	void unregisterOscReceived( uint32_t callbackId );
 
-		int getPort() const { return mObj->mPort; }
+	int getPort() const { return mObj->mPort; }
 
-	protected:
-		struct Obj
-		{
-			Obj() {}
-			Obj( int port, Proto proto );
-			~Obj();
+ protected:
+	struct Obj
+	{
+		Obj() {}
+		Obj( int port, Proto proto );
+		~Obj();
 
-			int mPort;
+		int mPort;
 
-			static void errorHandler( int num, const char *m, const char *path );
+		static void errorHandler( int num, const char *m, const char *path );
 
-			lo_server_thread mThread;
+		lo_server_thread mThread;
 
-			static int implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData );
+		static int implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData );
 
-			std::vector< std::shared_ptr< std::function< osc::Callback > > > mOscCallbacks;
-			static uint32_t sCallbackId;
-			std::map< uint32_t, std::pair< std::string, std::string > > mCallbackSpecs;
-		};
+		std::vector< std::shared_ptr< std::function< osc::Callback > > > mOscCallbacks;
+		static uint32_t sCallbackId;
+		std::map< uint32_t, std::pair< std::string, std::string > > mCallbackSpecs;
+	};
 
-		std::shared_ptr< Server::Obj > mObj;
+	std::shared_ptr< Server::Obj > mObj;
 };
 
 } } // mndl::osc

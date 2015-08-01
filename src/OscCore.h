@@ -47,70 +47,70 @@ typedef boost::variant< int32_t, float, std::string > Argument;
 
 class Message
 {
-	public:
-		Message( const std::string &addressPattern ) : mAddressPattern( addressPattern ), mTypeTag( "" ) {}
+ public:
+	Message( const std::string &addressPattern ) : mAddressPattern( addressPattern ), mTypeTag( "" ) {}
 
-		const std::string &getAddressPattern() const
-		{
-			return mAddressPattern;
-		}
+	const std::string &getAddressPattern() const
+	{
+		return mAddressPattern;
+	}
 
-		const std::string &getTypeTag() const
-		{
-			return mTypeTag;
-		}
+	const std::string &getTypeTag() const
+	{
+		return mTypeTag;
+	}
 
-		void addArg( int32_t arg )
-		{
-			mTypeTag += TYPE_INT32;
-			mArguments.push_back( arg );
-		}
+	void addArg( int32_t arg )
+	{
+		mTypeTag += TYPE_INT32;
+		mArguments.push_back( arg );
+	}
 
-		void addArg( float arg )
-		{
-			mTypeTag += TYPE_FLOAT;
-			mArguments.push_back( arg );
-		}
+	void addArg( float arg )
+	{
+		mTypeTag += TYPE_FLOAT;
+		mArguments.push_back( arg );
+	}
 
-		void addArg( const std::string &arg )
-		{
-			mTypeTag += TYPE_STRING;
-			mArguments.push_back( arg );
-		}
+	void addArg( const std::string &arg )
+	{
+		mTypeTag += TYPE_STRING;
+		mArguments.push_back( arg );
+	}
 
-		template< typename T>
-		T getArg( int32_t idx ) const
-		{
-			return boost::get< T >( mArguments[ idx ] );
-		}
+	template< typename T>
+	T getArg( int32_t idx ) const
+	{
+		return boost::get< T >( mArguments[ idx ] );
+	}
 
-		const char getArgType( int32_t idx ) const
-		{
-			return mTypeTag.at( idx );
-		}
+	const char getArgType( int32_t idx ) const
+	{
+		return mTypeTag.at( idx );
+	}
 
-		const std::vector< Argument > &getArgs() const
-		{
-			return mArguments;
-		}
+	const std::vector< Argument > &getArgs() const
+	{
+		return mArguments;
+	}
 
-		size_t getNumArgs() const
-		{
-			return mArguments.size();
-		}
+	size_t getNumArgs() const
+	{
+		return mArguments.size();
+	}
 
-		friend std::ostream& operator<<( std::ostream &lhs, const Message &rhs )
-		{
-			lhs << rhs.mAddressPattern << " " << rhs.mTypeTag;
-			for ( std::vector< Argument >::const_iterator it = rhs.mArguments.begin(); it != rhs.mArguments.end(); ++it )
-				lhs << " " << *it;
-			return lhs;
-		}
+	friend std::ostream& operator<<( std::ostream &lhs, const Message &rhs )
+	{
+		lhs << rhs.mAddressPattern << " " << rhs.mTypeTag;
+		for ( std::vector< Argument >::const_iterator it = rhs.mArguments.begin(); it != rhs.mArguments.end(); ++it )
+			lhs << " " << *it;
+		return lhs;
+	}
 
-	protected:
-		std::string mAddressPattern;
-		std::vector< Argument > mArguments;
-		std::string mTypeTag;
+ protected:
+	std::string mAddressPattern;
+	std::vector< Argument > mArguments;
+	std::string mTypeTag;
 };
 
 } } // namespace mndl::osc
