@@ -20,6 +20,7 @@
 #include <string>
 #include <vector>
 
+#include "boost/lexical_cast.hpp"
 #include "boost/variant.hpp"
 
 namespace mndl { namespace osc {
