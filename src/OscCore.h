@@ -23,6 +23,8 @@
 #include "boost/lexical_cast.hpp"
 #include "boost/variant.hpp"
 
+#include "cinder/Exception.h"
+
 namespace mndl { namespace osc {
 
 typedef enum
@@ -114,6 +116,18 @@ class Message
 	std::string mAddressPattern;
 	std::vector< Argument > mArguments;
 	std::string mTypeTag;
+};
+
+class OscException : public ci::Exception
+{
+ public:
+	OscException( const std::string &description = "" ) : ci::Exception( description ) { }
+};
+
+class OscExceptionServerThreadNew : public OscException
+{
+ public:
+	OscExceptionServerThreadNew( const std::string &description = "" ) : OscException( description ) { }
 };
 
 } } // namespace mndl::osc

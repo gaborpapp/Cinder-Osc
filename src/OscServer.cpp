@@ -29,6 +29,11 @@ Server::Server( int port, Proto proto /* = PROTO_UDP */ )
 {
 	string portStr = boost::lexical_cast< string >( port );
 	mThread = lo_server_thread_new_with_proto( ( port == PORT_ANY ) ? NULL : portStr.c_str(), proto, errorHandler );
+	if ( mThread == nullptr )
+	{
+		throw OscExceptionServerThreadNew( "Cannot create new server thread." );
+	}
+
 	if ( port == PORT_ANY )
 	{
 		mPort = lo_server_thread_get_port( mThread );
