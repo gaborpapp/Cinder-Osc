@@ -59,7 +59,7 @@ void Server::unregisterOscReceived( uint32_t callbackId )
 
 void Server::errorHandler( int num, const char *msg, const char *path )
 {
-	CI_LOG_E( "liblo server error " << num << " in path " << path << ": " << msg );
+	CI_LOG_E( "liblo server error [" << num << "]: " << msg << " path: " << ( path ? path : "-" ) );
 }
 
 int Server::implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData )
