@@ -15,7 +15,7 @@
  along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "cinder/app/App.h"
+#include "cinder/Log.h"
 
 #include "boost/lexical_cast.hpp"
 
@@ -59,7 +59,7 @@ void Server::unregisterOscReceived( uint32_t callbackId )
 
 void Server::errorHandler( int num, const char *msg, const char *path )
 {
-	ci::app::console() << "liblo server error " << num << " in path " << path << ": " << msg << endl;
+	CI_LOG_E( "liblo server error " << num << " in path " << path << ": " << msg );
 }
 
 int Server::implOscCallback( const char *path, const char *types, lo_arg **argv, int argc, void *data, void *userData )
